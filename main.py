@@ -31,10 +31,14 @@ def main():
         await ctx.channel.purge(limit=amount)
 
     # Kick members
-    @client.command()
-    @commands.has_permissions(kick_members=True)
-    async def kick(ctx, member: discord.Member, *, reason=None):
-        await ctx.guild.kick(member)
+    @bot.command()
+    async def kick(ctx, member: discord.Member, *, reason = None):
+        await member.kick(reason = reason)
+
+    # Ban member
+    @bot.command()
+    async def ban(ctx, member: discord.Member, *, reason = None):
+        await member.ban(reason = reason)
 
     # Infinite disconnect of @member
     @bot.command("disconnect", aliases=["dc"])
@@ -46,7 +50,6 @@ def main():
         # Infinite Dc!!!
 
         # clear user messages before action
-        await ctx.channel.purge(limit=1)
         for iteration in range(int(value)):
             big_winner = random.randint(1, 1)
 
