@@ -27,23 +27,30 @@ def main():
     # Clear messages
     @bot.command()
     async def clear(ctx, amount=5):
-
         await ctx.channel.purge(limit=amount)
 
     # Kick members
     @bot.command()
+    @commands.has_role("Bot Boi")
     async def kick(ctx, member: discord.Member, *, reason = None):
+        if str(member.id) == "193219019292016641":
+            return
+
         await member.kick(reason = reason)
 
     # Ban member
     @bot.command()
+    @commands.has_role("Bot Boi")
     async def ban(ctx, member: discord.Member, *, reason = None):
+        if str(member.id) == "193219019292016641":
+            return
+
         await member.ban(reason = reason)
 
-    # Infinite disconnect of @member
+    # Looping Disconnect member
     @bot.command("disconnect", aliases=["dc"])
+    @commands.has_role("Bot Boi")
     async def disconnect(ctx, member: discord.Member, value=10):
-
         if str(member.id) == "193219019292016641":
             return
 
@@ -67,6 +74,7 @@ def main():
         channel_two = bot.get_channel(823110715950891068)
 
         await member.move_to(channel_one)
+        time.sleep(1)
         await member.move_to(channel_two)
 
         # for iteration in range(60):
