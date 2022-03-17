@@ -29,22 +29,24 @@ def main():
     async def clear(ctx, amount=5):
 
         await ctx.channel.purge(limit=amount)
-        await ctx.send("It is complete.")
-        time.sleep(2)
-        await ctx.channel.purge(limit=1)
+
+    # Kick members
+    @client.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(ctx, member: discord.Member, *, reason=None):
+        await ctx.guild.kick(member)
 
     # Infinite disconnect of @member
     @bot.command("disconnect", aliases=["dc"])
     async def disconnect(ctx, member: discord.Member, value=10):
 
         if str(member.id) == "193219019292016641":
-            await ctx.send("Lol.  Nice try nerd.")
             return
 
         # Infinite Dc!!!
-        await ctx.send("Starting Loop.")
-        await ctx.send(f"你一直很淘气!  {member}")
 
+        # clear user messages before action
+        await ctx.channel.purge(limit=1)
         for iteration in range(int(value)):
             big_winner = random.randint(1, 1)
 
@@ -67,13 +69,14 @@ def main():
         # for iteration in range(60):
         #     await member.move_to(channel)
 
-    @clear.error
-    @disconnect.error
-    # @switch.error
-    async def integer_errors(ctx, error):
-        if isinstance(error, commands.UserInputError):
-            await ctx.send("This is not an integer, please try again.")
-            return
+    # Just to state what the user is doing wrong.
+    # @clear.error
+    # @disconnect.error
+    # # @switch.error
+    # async def integer_errors(ctx, error):
+    #     if isinstance(error, commands.UserInputError):
+    #         await ctx.send("This is not an integer, please try again.")
+    #         return
 
     @bot.command()
     async def shutdown(ctx):
