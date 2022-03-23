@@ -92,7 +92,7 @@ def main():
     async def test(ctx, member: discord.Member):
         await ctx.send(member.id)
 
-    bot.run("ODcwOTAzNDY3NjM4Njc3NTE1.YQTiDw.BV6KK98NYoNb_JQvnJ6CnuvywJw", bot=True)
+    bot.run("*Your Own Token", bot=True)
 
 
 main()
