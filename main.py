@@ -36,6 +36,8 @@ def main():
         if str(member.id) == "193219019292016641":
             return
 
+        await ctx.channel.purge(limit=1)
+
         await member.kick(reason = reason)
 
     # Ban member
@@ -45,17 +47,24 @@ def main():
         if str(member.id) == "193219019292016641":
             return
 
+        await ctx.channel.purge(limit=1)
+
         await member.ban(reason = reason)
 
     # Looping Disconnect member
     @bot.command("disconnect", aliases=["dc"])
     @commands.has_role("Bot Boi")
     async def disconnect(ctx, member: discord.Member, value=10):
+        print("log: ", member)
+
+        # Clean the evidence.
+        await ctx.channel.purge(limit=1)
+
         if str(member.id) == "193219019292016641":
+            print(member, " tried to DC you.")
             return
 
         # Infinite Dc!!!
-
         # clear user messages before action
         for iteration in range(int(value)):
             big_winner = random.randint(1, 1)
@@ -95,7 +104,7 @@ def main():
         await ctx.send("Shutting Down")
 
         time.sleep(2)
-        await ctx.channel.purge(limit=1)
+        await ctx.channel.purge(limit=2)
 
         await bot.close()
 
