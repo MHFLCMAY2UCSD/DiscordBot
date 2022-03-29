@@ -32,27 +32,28 @@ def main():
     # Kick members
     @bot.command()
     @commands.has_role("Bot Boi")
-    async def kick(ctx, member: discord.Member, *, reason = None):
+    async def kick(ctx, member: discord.Member, *, reason=None):
         if str(member.id) == "193219019292016641":
             return
 
         await ctx.channel.purge(limit=1)
 
-        await member.kick(reason = reason)
+        await member.kick(reason=reason)
 
     # Ban member
     @bot.command()
     @commands.has_role("Bot Boi")
-    async def ban(ctx, member: discord.Member, *, reason = None):
+    async def ban(ctx, member: discord.Member, *, reason=None):
         if str(member.id) == "193219019292016641":
             return
 
         await ctx.channel.purge(limit=1)
 
-        await member.ban(reason = reason)
+        await member.ban(reason=reason)
 
     # Looping Disconnect member
     @bot.command("disconnect", aliases=["dc"])
+    # @commands.is_owner()
     @commands.has_role("Bot Boi")
     async def disconnect(ctx, member: discord.Member, value=10):
         print("log: ", member)
@@ -86,18 +87,6 @@ def main():
         time.sleep(1)
         await member.move_to(channel_two)
 
-        # for iteration in range(60):
-        #     await member.move_to(channel)
-
-    # Just to state what the user is doing wrong.
-    # @clear.error
-    # @disconnect.error
-    # # @switch.error
-    # async def integer_errors(ctx, error):
-    #     if isinstance(error, commands.UserInputError):
-    #         await ctx.send("This is not an integer, please try again.")
-    #         return
-
     @bot.command()
     async def shutdown(ctx):
 
@@ -112,7 +101,7 @@ def main():
     async def test(ctx, member: discord.Member):
         await ctx.send(member.id)
 
-    bot.run("*Your Own Token", bot=True)
+    bot.run("", bot=True)
 
 
 main()
