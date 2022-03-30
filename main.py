@@ -33,7 +33,7 @@ def main():
     @bot.command()
     @commands.has_role("Bot Boi")
     async def kick(ctx, member: discord.Member, *, reason=None):
-        if str(member.id) == "193219019292016641":
+        if str(member.id) == "Owner's ID #":
             return
 
         await ctx.channel.purge(limit=1)
@@ -44,7 +44,7 @@ def main():
     @bot.command()
     @commands.has_role("Bot Boi")
     async def ban(ctx, member: discord.Member, *, reason=None):
-        if str(member.id) == "193219019292016641":
+        if str(member.id) == "Owner's ID #":
             return
 
         await ctx.channel.purge(limit=1)
@@ -61,7 +61,7 @@ def main():
         # Clean the evidence.
         await ctx.channel.purge(limit=1)
 
-        if str(member.id) == "193219019292016641":
+        if str(member.id) == "Owner's ID #":
             print(member, " tried to DC you.")
             return
 
@@ -75,13 +75,13 @@ def main():
 
             # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
 
-    @bot.command(aliases=["sw"])  # TODO Does not work
+    @bot.command(aliases=["sw"])
     async def switch(ctx, member: discord.member):
 
         await ctx.send("Yes")
 
-        channel_one = bot.get_channel(822722026803953688)
-        channel_two = bot.get_channel(823110715950891068)
+        channel_one = bot.get_channel()
+        channel_two = bot.get_channel()
 
         await member.move_to(channel_one)
         time.sleep(1)
