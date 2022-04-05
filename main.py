@@ -34,6 +34,7 @@ def main():
     @commands.has_role("Bot Boi")
     async def kick(ctx, member: discord.Member, *, reason=None):
         if str(member.id) == "193219019292016641":
+            print(member, " tried to ban you")
             return
 
         await ctx.channel.purge(limit=1)
@@ -45,6 +46,7 @@ def main():
     @commands.has_role("Bot Boi")
     async def ban(ctx, member: discord.Member, *, reason=None):
         if str(member.id) == "193219019292016641":
+            print(member, " tried to Kick you")
             return
 
         await ctx.channel.purge(limit=1)
@@ -56,7 +58,7 @@ def main():
     # @commands.is_owner()
     @commands.has_role("Bot Boi")
     async def disconnect(ctx, member: discord.Member, value=10):
-        print("log: ", member)
+        print("log: ", member, " Iteration: value")
 
         # Clean the evidence.
         await ctx.channel.purge(limit=1)
@@ -65,15 +67,16 @@ def main():
             print(member, " tried to DC you.")
             return
 
-        # Infinite Dc!!!
         # clear user messages before action
         for iteration in range(int(value)):
             big_winner = random.randint(1, 1)
 
+            # Infinite Dc!!
             time.sleep(big_winner)
             await member.move_to(None)
 
-            # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
+        print("Event over for ", member)
+        # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
 
     @bot.command(aliases=["sw"])  # TODO Does not work
     async def switch(ctx, member: discord.member):
