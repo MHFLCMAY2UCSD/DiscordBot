@@ -81,7 +81,7 @@ def main():
     @bot.command(aliases=["sw"])  # TODO Does not work
     async def switch(ctx, member: discord.member):
 
-        await ctx.send("Yes")
+        print("Moving Member: ", member)
 
         channel_one = bot.get_channel(822722026803953688)
         channel_two = bot.get_channel(823110715950891068)
