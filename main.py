@@ -56,7 +56,7 @@ def main():
     @bot.command("disconnect", aliases=["dc"])
     # @commands.is_owner()
     @commands.has_role("Bot Boi")
-    async def disconnect(ctx, member: discord.Member, value=10):
+    async def disconnect(ctx, *, member: discord.Member, value=10):
         print("log: ", member, " Iteration: value")
 
         # Clean the evidence.
@@ -74,17 +74,28 @@ def main():
             time.sleep(big_winner)
             await member.move_to(None)
 
-        print("Event over for ", member)
+        print("Event over for", member, "\n")
         # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
 
-    @bot.command(aliases=["sw"])  # TODO Does not work
-    async def switch(ctx, member: discord.member, channel: discord.VoiceChannel):
+    @bot.command()  # TODO Does not work
+    @commands.is_owner()
+    async def move(ctx, member: discord.Member, channel1: discord.VoiceChannel, channel2: discord.VoiceChannel, value=0):
 
-        print("Moving Member: ", member, "to channel: ", channel)
+        await ctx.channel.purge(limit=1)
 
-        await member.move_to(channel)
+        print("Moving Member:", member, "to channel:",
+              channel1, "and channel:", channel2)
 
-    @bot.command()
+        for i in range(value):
+            if i % 2 == 0:
+                await member.move_to(channel1)
+            else:
+                await member.move_to(channel2)
+            time.sleep(.5)
+
+        print("Event over for:", member, "\n")
+
+    @ bot.command()
     async def shutdown(ctx):
 
         await ctx.send("Shutting Down")
@@ -94,11 +105,11 @@ def main():
 
         await bot.close()
 
-    @bot.command()
+    @ bot.command()
     async def test(ctx, member: discord.Member):
         await ctx.send(member.id)
 
-    bot.run("Your Username please...", bot=True)
+    bot.run("", bot=True)
 
 
 main()
