@@ -104,7 +104,7 @@ def main():
     async def test(ctx, member: discord.Member):
         await ctx.send(member.id)
 
-    bot.run("", bot=True)
+    bot.run("Your Username please...", bot=True)
 
 
 main()
