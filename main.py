@@ -11,7 +11,6 @@ def main():
     @bot.event
     async def on_ready():
         await bot.change_presence(status=discord.Status.invisible)
-
         print("The Bot is ready.")
 
     @bot.event
@@ -25,12 +24,13 @@ def main():
 
     # Clear messages
     @bot.command()
+    @commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
     async def clear(ctx, amount=5):
         await ctx.channel.purge(limit=amount)
 
     # Kick members
     @bot.command()
-    @commands.has_role("Bot Boi")
+    @commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
     async def kick(ctx, member: discord.Member, *, reason=None):
         if str(member.id) == "193219019292016641":
             print(member, " tried to ban you")
@@ -41,8 +41,8 @@ def main():
         await member.kick(reason=reason)
 
     # Ban member
-    @bot.command()
-    @commands.has_role("Bot Boi")
+    @ bot.command()
+    @ commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
     async def ban(ctx, member: discord.Member, *, reason=None):
         if str(member.id) == "193219019292016641":
             print(member, " tried to Kick you")
@@ -53,49 +53,46 @@ def main():
         await member.ban(reason=reason)
 
     # Looping Disconnect member
-    @bot.command("disconnect", aliases=["dc"])
+    @ bot.command("disconnect", aliases=["dc"])
     # @commands.is_owner()
-    @commands.has_role("Bot Boi")
-    async def disconnect(ctx, *, member: discord.Member, value=10):
-        print("log: ", member, " Iteration: value")
+    @ commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
+    async def disconnect(ctx, value=10, *members: discord.Member):
+        await ctx.channel.purge(limit=1)  # Clean the evidence.
 
-        # Clean the evidence.
-        await ctx.channel.purge(limit=1)
+        for member in members:
+            print("log: ", member, " Iteration: ", value)
 
-        if str(member.id) == "193219019292016641":
-            print(member, " tried to DC you.")
-            return
+            if str(member.id) == "193219019292016641":
+                print(member, " tried to DC you.")
+                return
 
-        # clear user messages before action
-        for iteration in range(int(value)):
-            big_winner = random.randint(1, 1)
+            for iteration in range(int(value)):
+                big_winner = random.randint(1, 3)
 
-            # Infinite Dc!!
-            time.sleep(big_winner)
-            await member.move_to(None)
+                time.sleep(big_winner)
+                await member.move_to(None)
 
-        print("Event over for", member, "\n")
-        # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
+            print("Event over for", member, "\n")
+            # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
 
-    @bot.command()  # TODO Does not work
-    @commands.is_owner()
-    async def move(ctx, member: discord.Member, channel1: discord.VoiceChannel, channel2: discord.VoiceChannel, value=0):
-
+    @ bot.command()
+    @ commands.is_owner()
+    async def move(ctx, member: discord.Member, channel1: discord.VoiceChannel, channel2: discord.VoiceChannel, value=10):
+        # No Russians (CoD II Reference, not a racist)
         await ctx.channel.purge(limit=1)
 
         print("Moving Member:", member, "to channel:",
               channel1, "and channel:", channel2)
 
         for i in range(value):
-            if i % 2 == 0:
-                await member.move_to(channel1)
-            else:
-                await member.move_to(channel2)
-            time.sleep(.5)
+            channel = channel1 if i % 2 == 0 else channel2
+            await member.move_to(channel)
+            time.sleep(.4)
 
         print("Event over for:", member, "\n")
 
     @ bot.command()
+    @ commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
     async def shutdown(ctx):
 
         await ctx.send("Shutting Down")
