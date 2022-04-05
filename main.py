@@ -10,7 +10,6 @@ def main():
     # Creating Decorators
     @bot.event
     async def on_ready():
-
         await bot.change_presence(status=discord.Status.invisible)
 
         print("The Bot is ready.")
@@ -79,16 +78,11 @@ def main():
         # await ctx.send(f"iterations: {iteration}. Timer: {big_winner}")
 
     @bot.command(aliases=["sw"])  # TODO Does not work
-    async def switch(ctx, member: discord.member):
+    async def switch(ctx, member: discord.member, channel: discord.VoiceChannel):
 
-        print("Moving Member: ", member)
+        print("Moving Member: ", member, "to channel: ", channel)
 
-        channel_one = bot.get_channel(822722026803953688)
-        channel_two = bot.get_channel(823110715950891068)
-
-        await member.move_to(channel_one)
-        time.sleep(1)
-        await member.move_to(channel_two)
+        await member.move_to(channel)
 
     @bot.command()
     async def shutdown(ctx):
