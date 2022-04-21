@@ -38,6 +38,8 @@ def main():
 
         await ctx.channel.purge(limit=1)
 
+        print("Kick member: ", member, "\n")
+
         await member.kick(reason=reason)
 
     # Ban member
@@ -50,7 +52,26 @@ def main():
 
         await ctx.channel.purge(limit=1)
 
+        print(f"Ban member: {member}")
+
         await member.ban(reason=reason)
+
+    # UnBan member
+    @bot.command()
+    @commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
+    async def unban(ctx, *, member):
+        await ctx.channel.purge(limit=1)
+
+        banned_users = await ctx.guild.bans()
+        member_name, member_discriminator = member.split('#')
+
+        for ban_entry in banned_users:
+            user = ban_entry.user
+
+            if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await ctx.guild.unban(user)
+                print(f"Unbanned member: {user}")
+                break
 
     # Looping Disconnect member
     @ bot.command("disconnect", aliases=["dc"])
@@ -90,6 +111,17 @@ def main():
             time.sleep(.4)
 
         print("Event over for:", member, "\n")
+
+    # TODO
+    # Mute/Deafen alternate
+    # @bot.command(aliases=["m"])
+    # @commands.has_permissions(manage_messages=True)
+    # async def mute(ctx, member: discord.Member):
+    #     await ctx.channel.purge(limit=1)
+
+    #     muted_role = ctx.guild.get_role(962601359117516811)
+
+    #     await member.add_role(muted_role)
 
     @ bot.command()
     @ commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
