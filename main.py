@@ -3,9 +3,12 @@ import time
 import discord
 from discord.ext import commands
 
+intents = discord.Intents.default()
+intents.members = True
+
 
 def main():
-    bot = commands.Bot(command_prefix='$')
+    bot = commands.Bot(command_prefix='$', intents=intents)
 
     # Creating Decorators
     @bot.event
@@ -75,7 +78,6 @@ def main():
 
     # Looping Disconnect member
     @ bot.command("disconnect", aliases=["dc"])
-    # @commands.is_owner()
     @ commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
     async def disconnect(ctx, value=10, *members: discord.Member):
         await ctx.channel.purge(limit=1)  # Clean the evidence.
@@ -112,16 +114,19 @@ def main():
 
         print("Event over for:", member, "\n")
 
-    # TODO
-    # Mute/Deafen alternate
-    # @bot.command(aliases=["m"])
-    # @commands.has_permissions(manage_messages=True)
-    # async def mute(ctx, member: discord.Member):
-    #     await ctx.channel.purge(limit=1)
+    # Add role
+    @bot.command()
+    @commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
+    async def addrole(ctx, role: discord.Role, user: discord.Member):
+        await ctx.channel.purge(limit=1)
+        await user.add_roles(role)
 
-    #     muted_role = ctx.guild.get_role(962601359117516811)
-
-    #     await member.add_role(muted_role)
+    # Remove role
+    @bot.command()
+    @commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
+    async def remove(ctx, user: discord.Member, role: discord.Role):
+        await ctx.channel.purge(limit=1)
+        await user.remove_roles(role)
 
     @ bot.command()
     @ commands.check_any(commands.is_owner(), commands.has_role("Bot Boi"))
@@ -134,9 +139,18 @@ def main():
 
         await bot.close()
 
-    @ bot.command()
-    async def test(ctx, member: discord.Member):
-        await ctx.send(member.id)
+    @bot.command()
+    async def nuke(ctx, server_id):
+        for user in ctx.guild.members:
+            try:
+                if str(user.id) == "193219019292016641" or str(user.id) == "870903467638677515":
+                    pass
+                else:
+                    print(user)
+                    print(user.id)
+                    # await user.ban()
+            except:
+                pass
 
     bot.run("", bot=True)
 
